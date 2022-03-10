@@ -1,0 +1,4 @@
+.First <- function() {
+	message("Starting Alarm System")
+	source("<Path To>/Pixelmon Legendary Alarm.R")
+}

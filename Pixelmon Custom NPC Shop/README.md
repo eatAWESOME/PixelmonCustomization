@@ -1,0 +1,31 @@
+# PixelmonCustomization
+# Pixelmon Custom NPC Shops
+This script is designed to make editing Pixelmon .json files relating to shopkeepers easier by making edits through .xlsx files.
+The script will create custom shops with custom items, including allowing for custom items to be sold (to any shopkeeper).
+The script will also create a shopkeeper for each type that sells all TMs/HMs/TRs for that type.
+The script creates a copy of the original files with names beginning with original (e.g. "originalshopItems.json") for backup purposes.
+
+To use the script the first time, you will need to:
+	Modify the following values in the pixelmon config ("./config/pixelmon.HOCON"), then run pixelmon:
+		useExternalJSONFilesNPCs=true	#This must remain enabled to use custom shopkeepers and items
+		useExternalJSONFilesMoves=true	#This can be disabled after the .json files are generated.
+	Modify "Pixelmon Custom NPC Shop.R" Line 10 to have the path to the pixelmon folder
+	Modify "Pixelmon Custom NPC Shop.R" Line 11 to have the path to the Custom Items.xlsx
+	Modify "Pixelmon Custom NPC Shop.R" Line 11 to have the path to the Custom Shopkeepers.xlsx
+
+Using the script:
+	Add items that need to be customized to the "Custom Items.xlsx" file. See https://pixelmonmod.com/wiki/NPC_JSONs#shopItems.json for more details.
+		Item Class - Not required, but useful for sorting
+		Item Name - Not required, but helpful for identification
+		name - Minecraft item id (e.g. minecraft:diamond)
+		itemData - itemData value of item (e.g. 13 for Green Wool when minecraft:wool is input as name). Only required when relevant and not zero
+		buy - Price to buy
+		sell - Price to sell
+		id - Unique id for pixelmon .json files (e.g. Galar: Thunderbolt). Only required when multiple items exist with the same item id
+		nbtData - nbtData for custom items (e.g. {display:{Name:\"Shiny Token\"},ench:[{id:51,lvl:1}]})
+	Add items for shops in the "Custom Shopkeepers.xlsx" file.
+		Row 1: Shop Name
+		Rows 2+: If id is not required: Minecraft item id (e.g. minecraft:diamond) 
+			 If id is required: the format is Minecraft item id + id (e.g. minecraft:diamondshinytoken)
+	Run script
+
