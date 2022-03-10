@@ -1,3 +1,6 @@
+#Author: Alden Tilley
+#Date: 11/20/2021
+
 PlayerCount <- 10
 
 RNGData <- data.frame("Type" = c("Bug",

@@ -1,3 +1,6 @@
+#Author: Alden Tilley
+#Date: 11/8/2021
+
 PlayerCount <- 10
 
 RNGData <- data.frame("Biome" = c("Taiga",

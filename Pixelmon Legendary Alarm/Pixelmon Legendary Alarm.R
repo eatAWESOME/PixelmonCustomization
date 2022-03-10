@@ -1,3 +1,6 @@
+#Author: Alden Tilley
+#Date: 5/13/2020
+
 shell("cls")
 remove(list = ls())
 suppressMessages(suppressWarnings(library(utils)))

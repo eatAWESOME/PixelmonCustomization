@@ -1,3 +1,6 @@
+#Author: Alden Tilley
+#Date: 2/9/2021
+
 shell("cls")
 remove(list = ls())
 suppressMessages(suppressWarnings(library(rjson)))
