@@ -1,6 +1,6 @@
 #Author: Alden Tilley
 #https://github.com/eatAWESOME
-#Date: 11/8/2021
+#Date: 6/4/2022
 
 shell("cls")
 remove(list = ls())
@@ -11,6 +11,7 @@ suppressMessages(suppressWarnings(library(dplyr)))
 shell("cls")
 
 #Input Information
+Version <- "9"    #Choose from "8" or "9" (must be a string)
 PixelmonFolder <- "<Path to>/pixelmon"
 CustomItemsFile <- "<Path to>/Custom Items.xlsx"
 CustomShopkeepersFile <- "<Path to>/Custom ShopKeepers.xlsx"
@@ -30,9 +31,13 @@ repeat{
   if(Reps == MaxReps){break} else {Reps <- Reps + 1}
 }
 names(CustomItems)[7] <- "uniqueName"
-
-ShopItemsFile <- paste0(PixelmonFolder, "/npcs/shopItems.json")
-OriginalShopItemsFile <- paste0(PixelmonFolder, "/npcs/originalshopItems.json")
+if(Version == "9"){
+  ShopItemsFile <- paste0(PixelmonFolder, "/config/shopItems.json")
+  OriginalShopItemsFile <- paste0(PixelmonFolder, "/config/originalshopItems.json")
+} else {
+  ShopItemsFile <- paste0(PixelmonFolder, "/npcs/shopItems.json")
+  OriginalShopItemsFile <- paste0(PixelmonFolder, "/npcs/originalshopItems.json")
+}
 file.copy(from = ShopItemsFile, to = OriginalShopItemsFile, overwrite = FALSE)
 
 ShopItems <- fromJSON(OriginalShopItemsFile) %>% as.data.frame
@@ -184,12 +189,23 @@ MaxReps <- length(MoveFilenames[,1])
 Moves <- data.frame("Move" = NA,
                     "Type" = NA)
 repeat{
-  MoveJSON <- read.csv(file = paste0(MoveFolder,"/",MoveFilenames[Reps,]), row.names = c())
-  Moves[Reps,1] <- substr(MoveFilenames[Reps,], 1, nchar(as.character(MoveFilenames[Reps,1]))-5)
-  Moves[Reps,2] <- substr(MoveJSON[3,1], 15, nchar(MoveJSON[3,1]))
+  if(substr(MoveFilenames[Reps,], nchar(toString(MoveFilenames[Reps,])) - 4, nchar(toString(MoveFilenames[Reps,]))) == ".json"){
+    MoveJSON <- read.csv(file = paste0(MoveFolder,"/",MoveFilenames[Reps,]), row.names = c())
+    Moves[Reps,1] <- sub("_", " ", substr(MoveFilenames[Reps,], 1, nchar(as.character(MoveFilenames[Reps,1]))-5))
+    if(substr(MoveJSON[3,1],1, 12) == "  attackType"){
+      Moves[Reps,2] <- paste0(toupper(substr(substr(MoveJSON[3,1], 15, nchar(MoveJSON[3,1])), 1, 1)), tolower(substr(substr(MoveJSON[3,1], 15, nchar(MoveJSON[3,1])), 2, nchar(substr(MoveJSON[3,1], 15, nchar(MoveJSON[3,1]))))))
+    } else {
+      if(substr(MoveJSON[2,1],1, 12) == "  attackType"){
+        Moves[Reps,2] <- paste0(toupper(substr(substr(MoveJSON[2,1], 15, nchar(MoveJSON[2,1])), 1, 1)), tolower(substr(substr(MoveJSON[2,1], 15, nchar(MoveJSON[2,1])), 2, nchar(substr(MoveJSON[2,1], 15, nchar(MoveJSON[2,1]))))))
+      } else {
+        Moves[Reps,2] <- "Mystery"
+      }
+    }
+  } else {
+    Moves[Reps,2] <- "Mystery"
+  }
   if(Reps == MaxReps){break} else {Reps <- Reps + 1}
 }
-remove(MoveJSON)
 
 #TM Type Pairing
 
@@ -386,52 +402,52 @@ repeat{
 }
 
 #NPCs
-
-NPCsFile <- paste0(PixelmonFolder, "/npcs/npcs.json")
-OriginalNPCsFile <- paste0(PixelmonFolder, "/npcs/originalnpcs.json")
-if(!file.exists(OriginalNPCsFile)){
-  file.copy(from = NPCsFile, to = OriginalNPCsFile, overwrite = FALSE)
-}
-
-NPCJSON <- as.data.frame(readLines(OriginalNPCsFile))
-names(NPCJSON)[1] <- "JSONText"
-NPCJSON$JSONText <- as.character(NPCJSON$JSONText)
-NPCJSONStartRow <- data.frame("JSONText" = NPCJSON,
-                              "Row" = seq(1, length(NPCJSON$JSONText), by = 1))
-NPCJSONStartRow <- NPCJSONStartRow$Row[as.character(NPCJSONStartRow$JSONText) == "      \"name\": \"spawn1\""] - 2
-#Custom ShopKeeper NPCs
-Reps <- 1
-MaxReps <- length(CustomShopKeeperList$names)
-repeat{
-  NPCJSON[(length(NPCJSON$JSONText)+1):(length(NPCJSON$JSONText)+3),] <- NA
-  NPCJSON[(NPCJSONStartRow + 3):length(NPCJSON$JSONText),] <- NPCJSON[NPCJSONStartRow:(length(NPCJSON$JSONText) - 3),]
-  
-  NPCJSON$JSONText[NPCJSONStartRow] <- "    },"
-  NPCJSON$JSONText[NPCJSONStartRow + 1] <- "    {"
-  NPCJSON$JSONText[NPCJSONStartRow + 2] <- paste0("      \"name\": \"", as.character(CustomShopKeeperList$names[Reps]), "\"")
-  
-  NPCJSONStartRow <- NPCJSONStartRow + 3
-  if(Reps == MaxReps){break} else {
-    Reps <- Reps + 1
+if(Version != "9"){
+  NPCsFile <- paste0(PixelmonFolder, "/npcs/npcs.json")
+  OriginalNPCsFile <- paste0(PixelmonFolder, "/npcs/originalnpcs.json")
+  if(!file.exists(OriginalNPCsFile)){
+    file.copy(from = NPCsFile, to = OriginalNPCsFile, overwrite = FALSE)
   }
-}
-#Type ShopKeeper NPCs
-Reps <- 1
-MaxReps <- length(TypeList$Type)
-repeat{
-  NPCJSON[(length(NPCJSON$JSONText)+1):(length(NPCJSON$JSONText)+3),] <- NA
-  NPCJSON[(NPCJSONStartRow + 3):length(NPCJSON$JSONText),] <- NPCJSON[NPCJSONStartRow:(length(NPCJSON$JSONText) - 3),]
   
-  NPCJSON$JSONText[NPCJSONStartRow] <- "    },"
-  NPCJSON$JSONText[NPCJSONStartRow + 1] <- "    {"
-  NPCJSON$JSONText[NPCJSONStartRow + 2] <- paste0("      \"name\": \"", as.character(tolower(TypeList$Type[Reps])), "movemaster\"")
-  
-  if(Reps == MaxReps){break} else {
+  NPCJSON <- as.data.frame(readLines(OriginalNPCsFile))
+  names(NPCJSON)[1] <- "JSONText"
+  NPCJSON$JSONText <- as.character(NPCJSON$JSONText)
+  NPCJSONStartRow <- data.frame("JSONText" = NPCJSON,
+                                "Row" = seq(1, length(NPCJSON$JSONText), by = 1))
+  NPCJSONStartRow <- NPCJSONStartRow$Row[as.character(NPCJSONStartRow$JSONText) == "      \"name\": \"spawn1\""] - 2
+  #Custom ShopKeeper NPCs
+  Reps <- 1
+  MaxReps <- length(CustomShopKeeperList$names)
+  repeat{
+    NPCJSON[(length(NPCJSON$JSONText)+1):(length(NPCJSON$JSONText)+3),] <- NA
+    NPCJSON[(NPCJSONStartRow + 3):length(NPCJSON$JSONText),] <- NPCJSON[NPCJSONStartRow:(length(NPCJSON$JSONText) - 3),]
+    
+    NPCJSON$JSONText[NPCJSONStartRow] <- "    },"
+    NPCJSON$JSONText[NPCJSONStartRow + 1] <- "    {"
+    NPCJSON$JSONText[NPCJSONStartRow + 2] <- paste0("      \"name\": \"", as.character(CustomShopKeeperList$names[Reps]), "\"")
+    
     NPCJSONStartRow <- NPCJSONStartRow + 3
-    Reps <- Reps + 1
+    if(Reps == MaxReps){break} else {
+      Reps <- Reps + 1
+    }
   }
+  #Type ShopKeeper NPCs
+  Reps <- 1
+  MaxReps <- length(TypeList$Type)
+  repeat{
+    NPCJSON[(length(NPCJSON$JSONText)+1):(length(NPCJSON$JSONText)+3),] <- NA
+    NPCJSON[(NPCJSONStartRow + 3):length(NPCJSON$JSONText),] <- NPCJSON[NPCJSONStartRow:(length(NPCJSON$JSONText) - 3),]
+    
+    NPCJSON$JSONText[NPCJSONStartRow] <- "    },"
+    NPCJSON$JSONText[NPCJSONStartRow + 1] <- "    {"
+    NPCJSON$JSONText[NPCJSONStartRow + 2] <- paste0("      \"name\": \"", as.character(tolower(TypeList$Type[Reps])), "movemaster\"")
+    
+    if(Reps == MaxReps){break} else {
+      NPCJSONStartRow <- NPCJSONStartRow + 3
+      Reps <- Reps + 1
+    }
+  }
+
+  write.table(NPCJSON, file = NPCsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  message("NPCs edited")
 }
-
-
-write.table(NPCJSON, file = NPCsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
-message("NPCs edited")
