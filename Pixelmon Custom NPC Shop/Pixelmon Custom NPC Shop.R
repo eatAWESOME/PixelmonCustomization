@@ -1,6 +1,6 @@
 #Author: Alden Tilley
 #https://github.com/eatAWESOME
-#Date: 6/4/2022
+#Date: 6/13/2022
 
 shell("cls")
 remove(list = ls())
@@ -15,8 +15,19 @@ Version <- "9"    #Choose from "8" or "9" (must be a string)
 PixelmonFolder <- "<Path to>/pixelmon"
 CustomItemsFile <- "<Path to>/Custom Items.xlsx"
 CustomShopkeepersFile <- "<Path to>/Custom ShopKeepers.xlsx"
+DatapacksFolder <- "<Path to>/world/datapacks" #Only applies if Version == "9"
 
 
+
+#Datapack Folder
+if(Version == "9"){
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon/config")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon/npcs")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon/npcs/shopkeepers")))
+}
 
 #Shop Items
 
@@ -33,12 +44,12 @@ repeat{
 names(CustomItems)[7] <- "uniqueName"
 if(Version == "9"){
   ShopItemsFile <- paste0(PixelmonFolder, "/config/shopItems.json")
-  OriginalShopItemsFile <- paste0(PixelmonFolder, "/config/originalshopItems.json")
+  OriginalShopItemsFile <- ShopItemsFile
 } else {
   ShopItemsFile <- paste0(PixelmonFolder, "/npcs/shopItems.json")
   OriginalShopItemsFile <- paste0(PixelmonFolder, "/npcs/originalshopItems.json")
+  file.copy(from = ShopItemsFile, to = OriginalShopItemsFile, overwrite = FALSE)
 }
-file.copy(from = ShopItemsFile, to = OriginalShopItemsFile, overwrite = FALSE)
 
 ShopItems <- fromJSON(OriginalShopItemsFile) %>% as.data.frame
 if(length(ShopItems[1,]) == 5){
@@ -171,8 +182,12 @@ CustomShopItemsOutput[length(CustomShopItemsOutput[,1]),1] <- "    }"
 CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- "  ]"
 CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- "}"
 
-write.xlsx(CustomShopItems,file = paste0(substr(ShopItemsFile,1,nchar(ShopItemsFile)-5),".xlsx"))
-write.table(CustomShopItemsOutput, file = ShopItemsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+if(Version == "9"){
+  write.table(CustomShopItemsOutput, file = paste0(DatapacksFolder, "/Custom NPC Shop/data/pixelmon/config/shopItems.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+} else {
+  write.xlsx(CustomShopItems,file = paste0(substr(ShopItemsFile,1,nchar(ShopItemsFile)-5),".xlsx"))
+  write.table(CustomShopItemsOutput, file = ShopItemsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+}
 message("Shop Items Edited")
 
 
@@ -264,15 +279,17 @@ repeat{
 #ShopKeepers
 
 ShopKeepersFolder <- paste0(PixelmonFolder, "/npcs/shopKeepers/")
-OriginalShopKeepersFolder <- paste0(PixelmonFolder, "/npcs/originalshopKeepers")
-if(!dir.exists(OriginalShopKeepersFolder)){
-  OriginalShopKeeperList <- data.frame("names" = list.files(path = ShopKeepersFolder))
-  dir.create(OriginalShopKeepersFolder)
-  Reps <- 1
-  MaxReps <- length(OriginalShopKeeperList$names)
-  repeat{
-    file.copy(from = paste0(ShopKeepersFolder, OriginalShopKeeperList$names[Reps]), to = paste0(OriginalShopKeepersFolder, "/", OriginalShopKeeperList$names[Reps]) , overwrite = FALSE)  
-    if(Reps == MaxReps){break} else {Reps <- Reps +1}
+if(Version != "9"){
+  OriginalShopKeepersFolder <- paste0(PixelmonFolder, "/npcs/originalshopKeepers")
+  if(!dir.exists(OriginalShopKeepersFolder)){
+    OriginalShopKeeperList <- data.frame("names" = list.files(path = ShopKeepersFolder))
+    dir.create(OriginalShopKeepersFolder)
+    Reps <- 1
+    MaxReps <- length(OriginalShopKeeperList$names)
+    repeat{
+      file.copy(from = paste0(ShopKeepersFolder, OriginalShopKeeperList$names[Reps]), to = paste0(OriginalShopKeepersFolder, "/", OriginalShopKeeperList$names[Reps]) , overwrite = FALSE)  
+      if(Reps == MaxReps){break} else {Reps <- Reps +1}
+    }
   }
 }
 
@@ -334,7 +351,11 @@ repeat{
   TypeShop[length(TypeShop$JSON.Text)+1,1] <- "  ]"
   TypeShop[length(TypeShop$JSON.Text)+1,1] <- "}"
   
-  write.table(TypeShop, file = paste0(ShopKeepersFolder, tolower(TypeList$Type[Reps]), "movemaster_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  if(Version == "9"){
+    write.table(TypeShop, file = paste0(DatapacksFolder, "/Custom NPC Shop/data/pixelmon/npcs/shopkeepers/", tolower(TypeList$Type[Reps]), "movemaster_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  } else {
+    write.table(TypeShop, file = paste0(ShopKeepersFolder, tolower(TypeList$Type[Reps]), "movemaster_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  }
   message(paste0(TypeList$Type[Reps], " Shop Created"))
   
   if(Reps == MaxReps){break} else {Reps <- Reps + 1}
@@ -395,7 +416,11 @@ repeat{
   CustomShopOutput[length(CustomShopOutput$JSON.Text)+1,1] <- "  ]"
   CustomShopOutput[length(CustomShopOutput$JSON.Text)+1,1] <- "}"
   
-  write.table(CustomShopOutput, file = paste0(ShopKeepersFolder, CustomShopKeeperList$names[Reps], "_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  if(Version == "9"){
+    write.table(CustomShopOutput, file = paste0(DatapacksFolder, "/Custom NPC Shop/data/pixelmon/npcs/shopkeepers/", CustomShopKeeperList$names[Reps], "_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  } else {
+    write.table(CustomShopOutput, file = paste0(ShopKeepersFolder, CustomShopKeeperList$names[Reps], "_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  }
   message(paste0(CustomShopKeeperList$names[Reps], " Shop Created"))
   
   if(Reps == MaxReps){break} else {Reps <- Reps + 1}
@@ -447,7 +472,7 @@ if(Version != "9"){
       Reps <- Reps + 1
     }
   }
-
+  
   write.table(NPCJSON, file = NPCsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
   message("NPCs edited")
 }

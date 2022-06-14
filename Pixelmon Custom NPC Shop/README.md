@@ -3,9 +3,9 @@
 This script is designed to make editing Pixelmon .json files relating to shopkeepers easier by making edits through .xlsx files.
 The script will create custom shops with custom items, including allowing for custom items to be sold (to any shopkeeper).
 The script will also create a shopkeeper for each type that sells all TMs/HMs/TRs for that type.
-The script creates a copy of the original files with names beginning with original (e.g. "originalshopItems.json") for backup purposes.
+The script creates a copy of the original files with names beginning with original (e.g. "originalshopItems.json") for backup purposes (if using 8.X.X).
 
-This script is compatible with previous versions of pixelmon that require modifying external JSON files and with new versions (9.X.X), where changes are made to datapacks.
+This script is compatible with previous versions of pixelmon that require modifying external JSON files and with new versions (9.X.X), where changes are made via datapacks.
 Compatability with old versions of pixelmon has not been tested, but anything that follows the external JSON format used in 8.X.X should be compatible.
 Be sure to enter the correct version information before running the script to ensure the correct files are located and modified.
 
@@ -16,6 +16,7 @@ To use the script the first time, you will need to:
 	If using Pixelmon version 9.X.X (no external JSON files):
 		Rename the Pixelmon mod .jar file to end in .zip (change file type)
 		Extract Pixelmon .zip to a folder
+		Modify "Pixelmon Custom NPC Shop.R" Line 18 to have the path to the "./world/datapacks" folder
 	Modify "Pixelmon Custom NPC Shop.R" Line 14 to have the version selection ("8" for version 8.X.X or "9" for version 9.X.X)
 	Modify "Pixelmon Custom NPC Shop.R" Line 15 to have the path to the Pixelmon folder (For version 9.X.X, this is the "./data/pixelmon" folder)
 	Modify "Pixelmon Custom NPC Shop.R" Line 16 to have the path to the Custom Items.xlsx
@@ -36,6 +37,3 @@ Using the script:
 		Rows 2+: If id is not required: Minecraft item id (e.g. minecraft:diamond) 
 			 If id is required: the format is Minecraft item id + id (e.g. minecraft:diamondshinytoken)
 	Run script
-	If using Pixelmon version 9.X.X:
-		Reassemble Pixelmon .jar (folder to .zip, renamed to .jar)
-
