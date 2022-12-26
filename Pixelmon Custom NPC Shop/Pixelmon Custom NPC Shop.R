@@ -21,12 +21,12 @@ DatapacksFolder <- "<Path to>/world/datapacks" #Only applies if Version == "9"
 
 #Datapack Folder
 if(Version == "9"){
-  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop")))
-  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data")))
-  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon")))
-  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon/config")))
-  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon/npcs")))
-  suppressWarnings(dir.create(paste0(DatapacksFolder,"/Custom NPC Shop/data/pixelmon/npcs/shopkeepers")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon/config")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon/npcs")))
+  suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon/npcs/shopkeepers")))
 }
 
 #Shop Items
@@ -183,7 +183,7 @@ CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- "  ]"
 CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- "}"
 
 if(Version == "9"){
-  write.table(CustomShopItemsOutput, file = paste0(DatapacksFolder, "/Custom NPC Shop/data/pixelmon/config/shopItems.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  write.table(CustomShopItemsOutput, file = paste0(DatapacksFolder, "/CustomNPCShop/data/pixelmon/config/shopItems.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
 } else {
   write.xlsx(CustomShopItems,file = paste0(substr(ShopItemsFile,1,nchar(ShopItemsFile)-5),".xlsx"))
   write.table(CustomShopItemsOutput, file = ShopItemsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
@@ -352,7 +352,7 @@ repeat{
   TypeShop[length(TypeShop$JSON.Text)+1,1] <- "}"
   
   if(Version == "9"){
-    write.table(TypeShop, file = paste0(DatapacksFolder, "/Custom NPC Shop/data/pixelmon/npcs/shopkeepers/", tolower(TypeList$Type[Reps]), "movemaster_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+    write.table(TypeShop, file = paste0(DatapacksFolder, "/CustomNPCShop/data/pixelmon/npcs/shopkeepers/", tolower(TypeList$Type[Reps]), "movemaster_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
   } else {
     write.table(TypeShop, file = paste0(ShopKeepersFolder, tolower(TypeList$Type[Reps]), "movemaster_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
   }
@@ -417,7 +417,7 @@ repeat{
   CustomShopOutput[length(CustomShopOutput$JSON.Text)+1,1] <- "}"
   
   if(Version == "9"){
-    write.table(CustomShopOutput, file = paste0(DatapacksFolder, "/Custom NPC Shop/data/pixelmon/npcs/shopkeepers/", CustomShopKeeperList$names[Reps], "_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+    write.table(CustomShopOutput, file = paste0(DatapacksFolder, "/CustomNPCShop/data/pixelmon/npcs/shopkeepers/", CustomShopKeeperList$names[Reps], "_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
   } else {
     write.table(CustomShopOutput, file = paste0(ShopKeepersFolder, CustomShopKeeperList$names[Reps], "_en_us.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
   }
