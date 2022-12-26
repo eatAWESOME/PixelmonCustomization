@@ -56,7 +56,7 @@ repeat{
 }
 names(CustomItems)[7] <- "uniqueName"
 if(Version == "9"){
-  ShopItemsFile <- paste0(PixelmonFolder, "/config/shopItems.json")
+  ShopItemsFile <- paste0(PixelmonFolder, "/config/shopitems.json")
   OriginalShopItemsFile <- ShopItemsFile
 } else {
   ShopItemsFile <- paste0(PixelmonFolder, "/npcs/shopItems.json")
@@ -196,7 +196,7 @@ CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- "  ]"
 CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- "}"
 
 if(Version == "9"){
-  write.table(CustomShopItemsOutput, file = paste0(DatapacksFolder, "/CustomNPCShop/data/pixelmon/config/shopItems.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  write.table(CustomShopItemsOutput, file = paste0(DatapacksFolder, "/CustomNPCShop/data/pixelmon/config/shopitems.json"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
 } else {
   write.xlsx(CustomShopItems,file = paste0(substr(ShopItemsFile,1,nchar(ShopItemsFile)-5),".xlsx"))
   write.table(CustomShopItemsOutput, file = ShopItemsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
