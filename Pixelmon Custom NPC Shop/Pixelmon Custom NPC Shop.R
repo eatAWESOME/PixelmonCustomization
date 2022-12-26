@@ -21,12 +21,25 @@ DatapacksFolder <- "<Path to>/world/datapacks" #Only applies if Version == "9"
 
 #Datapack Folder
 if(Version == "9"){
+  #SubFolders
   suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop")))
   suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data")))
   suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon")))
   suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon/config")))
   suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon/npcs")))
   suppressWarnings(dir.create(paste0(DatapacksFolder,"/CustomNPCShop/data/pixelmon/npcs/shopkeepers")))
+  
+  #pack.mcmeta Creation
+  pack.mcmeta <- data.frame()
+  pack.mcmeta[1:6, 1] = NA
+  names(pack.mcmeta)[1] <- "pack.mcmeta"
+  pack.mcmeta$pack.mcmeta[1] <- "{"
+  pack.mcmeta$pack.mcmeta[2] <- "  \"pack\": {"
+  pack.mcmeta$pack.mcmeta[3] <- "    \"pack_format\": 6,"
+  pack.mcmeta$pack.mcmeta[4] <- "    \"description\": \"Pixelmon Custom NPC Shops\""
+  pack.mcmeta$pack.mcmeta[5] <- "  }"
+  pack.mcmeta$pack.mcmeta[6] <- "}"
+  write.table(pack.mcmeta, file = paste0(DatapacksFolder,"/pack.mcmeta"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 #Shop Items
