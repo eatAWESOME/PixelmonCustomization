@@ -489,3 +489,7 @@ if(Version != "9"){
   write.table(NPCJSON, file = NPCsFile, sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
   message("NPCs edited")
 }
+
+#Finish
+message(" ")
+message("Changes Completed")
