@@ -39,7 +39,7 @@ if(Version == "9"){
   pack.mcmeta$pack.mcmeta[4] <- "    \"description\": \"Pixelmon Custom NPC Shops\""
   pack.mcmeta$pack.mcmeta[5] <- "  }"
   pack.mcmeta$pack.mcmeta[6] <- "}"
-  write.table(pack.mcmeta, file = paste0(DatapacksFolder,"/pack.mcmeta"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  write.table(pack.mcmeta, file = paste0(DatapacksFolder,"/CustomNPCShop/pack.mcmeta"), sep = " ", dec = ".", row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 
 #Shop Items
