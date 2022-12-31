@@ -1,6 +1,6 @@
 # PixelmonCustomization
 # Pixelmon 8.1.2 TM Fixer
-This script is corrects an "issue" with Pixelmon 8.1.2 where pokemon can't learn from TMs due to the introduction of TRs. This isn't relevant for later versions of Pixelmon.
+This script corrects an "issue" with Pixelmon 8.1.2 where pokemon can't learn from TMs due to the introduction of TRs. This isn't relevant for later versions of Pixelmon.
 The script requires stats folders from Pixelmon 7.3.1 and Pixelmon 8.1.2. Generate and rename/move the folder in Pixelmon 7.3.1, then generate the folder in Pixelmon 8.1.2
 
 To generate a Pixelmon stats folder:
