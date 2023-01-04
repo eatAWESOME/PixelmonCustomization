@@ -9,8 +9,8 @@ import pandas as pd
 PixelmonPath = None #Path to ./data/pixelmon
 DatapacksPath = None #Path to ./world/datapacks
 
-if not os.path.exists(DatapacksPath + "/LidFixer/pixelmon/recipes/pokeball/lid"):
-    os.makedirs(DatapacksPath + "/LidFixer/pixelmon/recipes/pokeball/lid")
+if not os.path.exists(DatapacksPath + "/LidFixer/data/pixelmon/recipes/pokeball/lid"):
+    os.makedirs(DatapacksPath + "/LidFixer/data/pixelmon/recipes/pokeball/lid")
     
 lids = glob.glob(PixelmonPath + "/recipes/pokeball/lid/*.json")
 for lidpath in lids:
@@ -24,7 +24,7 @@ for lidpath in lids:
     df.loc[max(df.index) + 1, 0] = "    }"
     df.loc[max(df.index) + 1, 0] = "  }"
     df.loc[max(df.index) + 1, 0] = "}"
-    df.to_csv(lidpath.replace(PixelmonPath.replace("/pixelmon", ""), DatapacksPath + "/LidFixer"), index = False, header = False, quoting = 3, sep = "\\", escapechar = "\\")
+    df.to_csv(lidpath.replace(PixelmonPath.replace("/pixelmon", ""), DatapacksPath + "/LidFixer/data"), index = False, header = False, quoting = 3, sep = "\\", escapechar = "\\")
     
 pack = pd.DataFrame(index = range(6), columns = [0])
 pack.loc[0, 0] = "{"
