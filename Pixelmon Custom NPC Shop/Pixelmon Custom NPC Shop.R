@@ -125,6 +125,14 @@ repeat{
 }
 
 CustomShopItems$nbtData <-as.character(CustomShopItems$nbtData)
+Reps <- 1
+MaxReps <- length(CustomShopItems$nbtData)
+repeat{
+  if(CustomShopItems$nbtData[Reps] == "NULL"){
+    CustomShopItems$nbtData[Reps] <- NA
+  }
+  if(Reps == MaxReps){break} else {Reps <- Reps + 1}
+}
 
 items <- data.frame("id" = CustomShopItems$id,
                     "name" = CustomShopItems$name,
