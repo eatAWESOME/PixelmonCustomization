@@ -174,13 +174,23 @@ repeat{
     })
   }
   if(!is.na(items$nbtData[Reps])){
-    CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- paste0("      \"nbtData\": \"", items$nbtData[Reps], "\"", if(!is.na(items$sell[Reps])){
-      ","
-    } else {
-      if(!is.na(items$buy[Reps])){
+    if(substr(items$nbtData[Reps],1,4) == "{tm:"){
+      CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- paste0("      \"nbtData\": \"", items$nbtData[Reps], "\"", if(!is.na(items$sell[Reps])){
         ","
-      }
-    })
+      } else {
+        if(!is.na(items$buy[Reps])){
+          ","
+        }
+      })
+    } else {
+      CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- paste0("      \"nbtData\": ", items$nbtData[Reps], if(!is.na(items$sell[Reps])){
+        ","
+      } else {
+        if(!is.na(items$buy[Reps])){
+          ","
+        }
+      })
+    }
   }
   if(!is.na(items$buy[Reps])){
     CustomShopItemsOutput[length(CustomShopItemsOutput[,1])+1,1] <- paste0("      \"buy\": ", items$buy[Reps], if(!is.na(items$sell[Reps])){
