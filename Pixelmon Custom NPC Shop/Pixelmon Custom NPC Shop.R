@@ -124,6 +124,8 @@ repeat{
   if(Reps == MaxReps){break} else {Reps <- Reps + 1}
 }
 
+CustomShopItems$nbtData <-as.character(CustomShopItems$nbtData)
+
 items <- data.frame("id" = CustomShopItems$id,
                     "name" = CustomShopItems$name,
                     "itemData" = CustomShopItems$itemData,
