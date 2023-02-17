@@ -10,7 +10,7 @@ ForceRestriction = None
 PlayerList.sort()
 PlayerCount = len(PlayerList)
 if ForceRestriction == None:
-    RestrictionType = pd.DataFrame(["Type", "Biome", "Region"], columns = ["Restriction"])
+    RestrictionType = pd.DataFrame(["Type", "Biome", "Egg Group", "Region", "Generation", "Game"], columns = ["Restriction"])
     RestrictionType = RestrictionType.sample(1)["Restriction"].item()
 else:
     RestrictionType = ForceRestriction
@@ -119,6 +119,23 @@ elif RestrictionType == "Biome":
                        "Ultra Forest",
                        "Ultra Jungle"
                        ], columns = ["Restriction"])
+elif RestrictionType == "Egg Group":
+    df = pd.DataFrame(["Amorphous",
+                       "Bug",
+                       #"Ditto",
+                       "Dragon",
+                       "Fairy",
+                       "Field",
+                       "Flying",
+                       "Grass",
+                       "Human-Like",
+                       "Mineral",
+                       "Monster",
+                       "Undiscovered",
+                       "Water 1",
+                       "Water 2",
+                       "Water 3"
+                       ], columns = ["Restriction"])
 elif RestrictionType == "Region":
     df = pd.DataFrame(["Kanto",
                        "Johto",
@@ -130,6 +147,47 @@ elif RestrictionType == "Region":
                        "Galar",
                        "Hisui",
                        "Paldea"
+                       ], columns = ["Restriction"])
+elif RestrictionType == "Generation":
+    df = pd.DataFrame([i for i in range(1, 9 + 1)], columns = ["Restriction"])
+elif RestrictionType == "Game":
+    df = pd.DataFrame(["Red",
+                       "Blue"
+                       "Yellow",
+                       "Gold",
+                       "Silver",
+                       "Crystal",
+                       "Ruby",
+                       "Sapphire",
+                       "FireRed",
+                       "LeafGreen",
+                       "Emerald",
+                       "Diamond",
+                       "Pearl",
+                       "Platinum",
+                       "HeartGold",
+                       "SoulSilver",
+                       "Black",
+                       "White",
+                       "Black 2",
+                       "White 2",
+                       "X",
+                       "Y",
+                       "Omega Ruby",
+                       "Alpha Sapphire",
+                       "Sun",
+                       "Moon",
+                       "Ultra Sun",
+                       "Ultra Moon",
+                       "Let's Go, Pikachu!",
+                       "Let's Go, Eevee!",
+                       "Sword",
+                       "Shield",
+                       "Brilliant Diamond",
+                       "Shining Pearl",
+                       "Legends: Arceus",
+                       "Scarlet",
+                       "Violet"
                        ], columns = ["Restriction"])
 Players = pd.DataFrame(index = range(len(PlayerList)), columns = ["Player", "Restriction"])
 if len(PlayerList) <= len(df):
