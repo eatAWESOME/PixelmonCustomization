@@ -1,3 +1,3 @@
 # PixelmonCustomization
 ## Pixelmon Tournament RNG
-These scripts can be used to randomly assign types, biomes, or regions to players.
+This script can be used to randomly assign types, biomes, egg groups, regions, generations, or games to a list of players.
