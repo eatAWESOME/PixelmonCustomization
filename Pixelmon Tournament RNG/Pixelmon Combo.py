@@ -1,16 +1,16 @@
 #Author: Alden Tilley
 #https://github.com/eatAWESOME
-#Date: 1/12/2023
+#Date: 2/17/2023
 
 import pandas as pd
 
-PlayerList = ["Alden", "Sarah", "Josh", "KJ", "TJ", "Andy", "Nic"]
+PlayerList = []
 ForceRestriction = None
 
 PlayerList.sort()
 PlayerCount = len(PlayerList)
 if ForceRestriction == None:
-    RestrictionType = pd.DataFrame(["Type", "Biome"], columns = ["Restriction"])
+    RestrictionType = pd.DataFrame(["Type", "Biome", "Region"], columns = ["Restriction"])
     RestrictionType = RestrictionType.sample(1)["Restriction"].item()
 else:
     RestrictionType = ForceRestriction
@@ -119,9 +119,23 @@ elif RestrictionType == "Biome":
                        "Ultra Forest",
                        "Ultra Jungle"
                        ], columns = ["Restriction"])
-Players = pd.DataFrame(df.sample(PlayerCount)["Restriction"], columns = ["Restriction"])
-Players.columns
-Players.index = range(1, PlayerCount + 1)
-Players["Player"] = PlayerList
-Players = Players.loc[:, ["Player", "Restriction"]]
+elif RestrictionType == "Region":
+    df = pd.DataFrame(["Kanto",
+                       "Johto",
+                       "Hoenn",
+                       "Sinnoh",
+                       "Unova",
+                       "Kalos",
+                       "Alola",
+                       "Galar",
+                       "Hisui",
+                       "Paldea"
+                       ], columns = ["Restriction"])
+Players = pd.DataFrame(index = range(len(PlayerList)), columns = ["Player", "Restriction"])
+if len(PlayerList) <= len(df):
+    Players["Restriction"] = list(df.sample(PlayerCount)["Restriction"])
+    Players["Player"] = PlayerList
+else:
+    for i in range(len(PlayerList)):
+        Players.loc[i, ["Player", "Restriction"]] = PlayerList[i], df.sample(1)["Restriction"].values[0]
 print(Players)
