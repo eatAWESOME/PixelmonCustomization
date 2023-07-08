@@ -20,3 +20,4 @@ This script was first created for Pixelmon 9.1.5. Compatability with older versi
 * Enter the required variables
   * Trainer Excel: the .xlsx file to be used (following the formatting above)
 * Press the run button
+* A "Trainer Pokepastes" folder containing .txt file with a poképaste for each trainer will be created in the directory of the selected .xlsx file.
