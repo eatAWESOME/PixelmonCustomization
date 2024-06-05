@@ -4,8 +4,8 @@
 
 import pandas as pd
 
-PlayerList = []
-ForceRestriction = None
+PlayerList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+ForceRestriction = "Game"
 
 PlayerList.sort()
 PlayerCount = len(PlayerList)
@@ -152,7 +152,7 @@ elif RestrictionType == "Generation":
     df = pd.DataFrame([i for i in range(1, 9 + 1)], columns = ["Restriction"])
 elif RestrictionType == "Game":
     df = pd.DataFrame(["Red",
-                       "Blue"
+                       "Blue",
                        "Yellow",
                        "Gold",
                        "Silver",
